@@ -41,5 +41,4 @@ int main() {
         std::cin >> N;
         std::cout << fib[N] << '\n';
     }
- 
 }

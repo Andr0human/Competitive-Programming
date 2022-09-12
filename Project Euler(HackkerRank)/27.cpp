@@ -59,5 +59,4 @@ int main() {
 
     int N; cin >> N;
     mySolution(N);
-
 }

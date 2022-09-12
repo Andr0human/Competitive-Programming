@@ -122,7 +122,6 @@ class Calendar {
         }
         return known;
     }
-
 };
 
 

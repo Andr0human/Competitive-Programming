@@ -47,6 +47,5 @@ int main() {
     for (int i = 10; i <= 600000; i++)
         if (sum_of_power(i, power) == i) answer += i;
     std::cout << answer;
-
 }
 

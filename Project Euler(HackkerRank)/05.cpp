@@ -21,7 +21,6 @@ long long gcd(long long a, long long b) {
 }
 
 int mySolution(int N) {
-
     int res = 1;
 
     for (int i = 2; i <= N; i++) {
@@ -29,7 +28,6 @@ int mySolution(int N) {
         int g = gcd(res, i);
         res *= i / g;
     }
-
 
     return res;
 }

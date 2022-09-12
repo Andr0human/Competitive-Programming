@@ -37,6 +37,5 @@ int main() {
         BigInt a = big_pow(2, N);
         std::cout << sum_of_digits(a.str()) << std::endl;
     }
-
 }
 

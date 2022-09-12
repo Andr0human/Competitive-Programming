@@ -36,6 +36,4 @@ int main() {
         int N; cin >> N;
         cout << arr[N - 1] << endl;
     }
-
-
 }

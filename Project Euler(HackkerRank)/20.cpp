@@ -20,7 +20,6 @@ int sum_of_digits(const std::string& __s) {
 
 
 int main() {
-
     int t;
     cin >> t;
 
@@ -32,6 +31,5 @@ int main() {
             res *= i;
         cout << sum_of_digits(res.str()) << '\n';
     }
-
 }
 

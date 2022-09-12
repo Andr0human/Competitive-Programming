@@ -87,5 +87,4 @@ int main() {
         cin >> N;
         ToWords(N);
     }
-
 }

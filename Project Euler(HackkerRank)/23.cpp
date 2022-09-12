@@ -34,7 +34,6 @@ string mySolution(int N, vector<int> &list) {
             if (list[i] + list[j] == N) return yes;
     }
 
-
     return no;
 }
 

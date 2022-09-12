@@ -51,5 +51,4 @@ int main() {
         int N; cin >> N;
         cout << mySolution(N) << endl;
     }
-    
 }

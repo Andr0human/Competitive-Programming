@@ -34,6 +34,6 @@ int main() {
         res.emplace_back(x);
     }
 
-    for (int i = res.size() - 1; i > res.size() - 10; i--) cout << res[i];
-   
+    for (int i = res.size() - 1; i > res.size() - 10; i--)
+        cout << res[i];
 }
