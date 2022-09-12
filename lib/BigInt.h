@@ -28,13 +28,12 @@
  */
 
 
-class BigInt {
-
-typedef uint32_t _Digit_Type;
-typedef std::vector<_Digit_Type> __bigvec__;
+class BigInt
+{
+	typedef 				uint32_t 	_Digit_Type;
+	typedef std::vector<_Digit_Type> 	 __bigvec__;
 
 private:
-
 	const static _Digit_Type BITS_PER_WORD = 32;
 	const static _Digit_Type WORD_MAX_VALUE = (1ULL << BITS_PER_WORD) - 1;
 
@@ -47,43 +46,51 @@ private:
 
 	#ifndef BIGINT_UTILS
 
-	void set_to_value (const uint32_t value)
+	void
+	set_to_value (const uint32_t value)
 	{ digits = __bigvec__{value}; }
 
-	void set_to_value (const uint64_t value) {
-		
+	void
+	set_to_value (const uint64_t value)
+	{
 		const _Digit_Type __l = static_cast<_Digit_Type>(value >> BITS_PER_WORD);
 		const _Digit_Type __r = static_cast<_Digit_Type>(value & WORD_MAX_VALUE);
 
 		digits = __l > 0 ? __bigvec__{__r, __l} : __bigvec__{__r};
 	}
 
-	void set_to_value (const int32_t value) {
-		
+	void
+	set_to_value (const int32_t value)
+	{
 		uint32_t _X = static_cast<uint32_t>(value);
 		_X = (_X ^ (WORD_MAX_VALUE * (__sign ^ 1))) + (__sign ^ 1);
 		set_to_value(_X);
 	}
 
-	void set_to_value (const int64_t value) {
-
+	void
+	set_to_value (const int64_t value)
+	{
 		uint64_t _X = static_cast<uint64_t>(value);
 		_X = (_X ^ (ULLONG_MAX * (__sign ^ 1))) + (__sign ^ 1);
 		set_to_value(_X);
 	}
 
-	bool is_zero() const noexcept
+	bool
+	is_zero() const noexcept
 	{ return digits.size() == 1 && digits.front() == 0; }
 
-	void remove_trailing_zeros() noexcept {
+	void
+	remove_trailing_zeros() noexcept
+	{
 		while (digits.size() > 1 && digits.back() == 0)
 			digits.pop_back();
 		if (digits.size() == 1 && digits.front() == 0)
 			__sign = true;
 	}
 
-	static std::string multiply (const std::string& __s, uint64_t multiplier) {
-
+	static std::string
+	multiply(const std::string& __s, uint64_t multiplier)
+	{
 		uint64_t carry = 0;
 		std::string res;
 
@@ -101,8 +108,9 @@ private:
 		return res;
 	}
 
-	static void arithmetic_add_strings (std::string& s1, const std::string& s2) {
-
+	static void
+	arithmetic_add_strings (std::string& s1, const std::string& s2)
+	{
 		size_t __n = s2.length();
 
 		while (s1.length() < __n)
@@ -130,8 +138,9 @@ private:
 			s1.pop_back();
 	}
 
-	static void bitwise_rightshift_16_on_decimal(std::vector<uint64_t>& A) noexcept {
-
+	static void
+	bitwise_rightshift_16_on_decimal(std::vector<uint64_t>& A) noexcept
+	{
 		const uint32_t right_shift = 16;
 		const uint64_t FILTER = (1 << 16) - 1;
 
@@ -151,16 +160,16 @@ private:
 
 	}
 
-	static std::vector<uint64_t> string_to_vector
-		(const std::string& __s, const size_t DIGITS_PER_WORD) {
-
+	static std::vector<uint64_t>
+	string_to_vector(const std::string& __s, const size_t __digits_per_word)
+	{
 		const size_t __n = __s.length();
 
 		size_t start  = __s[0] == '-';
-		size_t extra_len = (__n - start) % DIGITS_PER_WORD;
+		size_t extra_len = (__n - start) % __digits_per_word;
 
 		std::vector<uint64_t> in_decimal(
-			(__n - start) / DIGITS_PER_WORD + (extra_len != 0)
+			(__n - start) / __digits_per_word + (extra_len != 0)
 		);
 		auto __rf = rbegin(in_decimal);
 
@@ -175,7 +184,7 @@ private:
 			add_to_vector(start, start + extra_len);
 
 		while (start < __n)
-			add_to_vector(start, start + DIGITS_PER_WORD);
+			add_to_vector(start, start + __digits_per_word);
 
 		return in_decimal;
 	}
@@ -186,8 +195,9 @@ private:
 	#ifndef BIGINT_BITS_ARITHMETIC
 
 
-	void bits_adder (const BigInt& other) {
-
+	void
+	bits_adder(const BigInt& other)
+	{
 		if (digits.size() < other.digits.size())
 			digits.resize(other.digits.size());
 
@@ -212,8 +222,9 @@ private:
 	}
 
 
-	void bits_subtracter (const BigInt& other) {
-
+	void
+	bits_subtracter(const BigInt& other)
+	{
 		// Works if self is greater than other.
 
 		auto __f1 = begin(digits);
@@ -237,8 +248,9 @@ private:
 	}
 
 
-	void bits_multiplier (const BigInt &other) {
-
+	void
+	bits_multiplier (const BigInt &other)
+	{
 		const uint64_t __n1 = digits.size();
 		const uint64_t __n2 = other.digits.size();
 
@@ -300,14 +312,17 @@ private:
 
 	#ifndef BIGINT_KARATSUBA_MULTIPLY
 
-	BigInt normal_multiply (const BigInt& other) const noexcept {
+	BigInt
+	normal_multiply(const BigInt& other) const noexcept
+	{
 		BigInt res = *this;
 		res.bits_multiplier(other);
 		return res;
 	}
 
-	static void half_split(const BigInt& _X, BigInt& _A, BigInt& _B, size_t half_B) {
-
+	static void
+	half_split(const BigInt& _X, BigInt& _A, BigInt& _B, size_t half_B)
+	{
 		const size_t __n = _X.digits.size();
 		half_B = std::min(half_B, __n);
 
@@ -320,8 +335,9 @@ private:
 		std::copy(begin(_X.digits) + half_B,   end(_X.digits), begin(_A.digits));
 	}
 
-	BigInt karatsuba_multiply (const BigInt& _X) const {
-
+	BigInt
+	karatsuba_multiply(const BigInt& _X) const
+	{
 		const size_t __n1 = digits.size();
 		const size_t __n2 = _X.digits.size();
 		const size_t halfpoint = std::max(__n1, __n2) / 2;
@@ -352,8 +368,9 @@ public:
 
 	#ifndef BIGINT_FUNCTIONS
 
-	static BigInt random (size_t low = 1, size_t high = 64) {
-
+	static BigInt
+	random(size_t low = 1, size_t high = 64)
+	{
 		std::mt19937 rng32(static_cast<uint32_t>(
 			std::chrono::steady_clock::now().time_since_epoch().count()));
 
@@ -370,7 +387,9 @@ public:
 		return random_value;
 	}
 
-	void print() const {
+	void
+	print() const
+	{
 		auto __f = rbegin(digits);
 		auto __e = rend(digits);
 
@@ -379,7 +398,9 @@ public:
 		std::cout << std::endl;
 	}
 
-	static void print(const std::vector<uint64_t>& vect) {
+	static void
+	print(const std::vector<uint64_t>& vect)
+	{
 		auto __f = rbegin(vect);
 		auto __e = rend(vect);
 
@@ -390,18 +411,21 @@ public:
 
 	#endif
 
-	_Digit_Type get(size_t __pos) const
+	_Digit_Type
+	get(size_t __pos) const
 	{ return digits[__pos]; }
 
 	BigInt ()
 	: digits(__bigvec__(1, 0)), __sign(true) {}
 
-	template <typename _Tp> BigInt (const _Tp value)
+	template <typename _Tp>
+	BigInt (const _Tp value)
 	: __sign (value >= 0) { set_to_value(value); }
 
 
-	bool invalid_string_constructor (const std::string& __s) const {
-
+	bool
+	invalid_string_constructor (const std::string& __s) const
+	{
 		const auto is_out_of_zero_to_nine = [] (char ch) {
 			return !(ch >= '0' && ch <= '9');
 		};
@@ -423,8 +447,8 @@ public:
 	}
 
 
-	BigInt (const std::string& __s) {
-
+	BigInt (const std::string& __s)
+	{
 		if (invalid_string_constructor(__s))
 			throw std::invalid_argument("Invalid string passed as contructor!");
 
@@ -454,11 +478,13 @@ public:
 
 	#ifndef BIGINT_UTILS
 
-	bool is_bit (size_t __pos) const noexcept
+	bool
+	is_bit(size_t __pos) const noexcept
 	{ return (digits[__pos >> 5] & (1U << (__pos & 31))) != 0; }
 
-	std::string str() const {
-
+	std::string
+	str() const
+	{
 		if (digits.size() == 1)
 			return std::string(__sign ? "" : "-") + std::to_string(digits[0]);
 
@@ -483,7 +509,9 @@ public:
 		return res;
 	}
 
-	size_t max_bit() const noexcept {
+	size_t
+	max_bit() const noexcept
+	{
 		return (32 * (digits.size() - 1))
 			+ (__builtin_clz(digits.back() | 1) ^ 31);
 	}
@@ -494,7 +522,9 @@ public:
 
 	#ifndef BIGINT_COMPARATORS
 
-	bool greater_than (const BigInt& other) const noexcept {
+	bool
+	greater_than(const BigInt& other) const noexcept
+	{
 		if (digits.size() > other.digits.size()) return true;
 		if (digits.size() < other.digits.size()) return false;
 
@@ -510,7 +540,9 @@ public:
 		return false;
 	}
 
-	bool smaller_than (const BigInt& other) const noexcept {
+	bool
+	smaller_than(const BigInt& other) const noexcept
+	{
 		if (digits.size() < other.digits.size()) return true;
 		if (digits.size() > other.digits.size()) return false;
 
@@ -526,25 +558,35 @@ public:
 		return false;
 	}
 
-	bool operator>  (const BigInt& other) const noexcept {
+	bool
+	operator>(const BigInt& other) const noexcept
+	{
 		if (__sign > other.__sign) return true;
 		if (__sign < other.__sign) return false;
 		if (__sign) return greater_than(other);
 		return smaller_than(other);
 	}
-	bool operator<  (const BigInt& other) const noexcept {
+
+	bool
+	operator<(const BigInt& other) const noexcept
+	{
 		if (__sign > other.__sign) return false;
 		if (__sign < other.__sign) return true;
 		if (!__sign) return greater_than(other);
 		return smaller_than(other);
 	}
-	bool operator>= (const BigInt& other) const noexcept {
-		return !(*this < other);
-	}
-	bool operator<= (const BigInt& other) const noexcept {
-		return !(*this > other);
-	}
-	bool operator== (const BigInt& other) const noexcept {
+
+	bool
+	operator>=(const BigInt& other) const noexcept
+	{ return !(*this < other); }
+	
+	bool
+	operator<=(const BigInt& other) const noexcept
+	{ return !(*this > other); }
+
+	bool
+	operator==(const BigInt& other) const noexcept
+	{
 		if ( (__sign != other.__sign) ||
 			digits.size() != other.digits.size() ) return false;
 		
@@ -557,16 +599,19 @@ public:
 		
 		return true;
 	}
-	bool operator!= (const BigInt& other) const noexcept {
-		return !(*this == other);
-	}
+	
+	bool
+	operator!=(const BigInt& other) const noexcept
+	{ return !(*this == other); }
 
 	#endif
 
 
 	#ifndef BIGINT_BITWISE_OPERATORS
 
-	void operator^= (const BigInt& other) noexcept {
+	void
+	operator^=(const BigInt& other) noexcept
+	{
 		if (digits.size() < other.digits.size())
 			digits.resize(other.digits.size());
 
@@ -575,8 +620,10 @@ public:
 
 		remove_trailing_zeros();
 	}
-	BigInt operator^ (const BigInt& other) const noexcept {
-		
+
+	BigInt
+	operator^(const BigInt& other) const noexcept
+	{
 		auto& larger_value  = digits.size() >= other.digits.size() ? *this : other;
 		auto& smaller_value = digits.size()  < other.digits.size() ? *this : other;
 
@@ -585,15 +632,19 @@ public:
 		return res;
 	}
 
-	void operator&= (const BigInt& other) noexcept {
+	void
+	operator&=(const BigInt& other) noexcept
+	{
 		if (digits.size() > other.digits.size())
 			digits.resize(other.digits.size());
 		
 		std::transform(begin(digits), end(digits),
 			begin(other.digits), begin(digits), std::bit_and<_Digit_Type>());
 	}
-	BigInt operator& (const BigInt& other) const noexcept {
 
+	BigInt
+	operator&(const BigInt& other) const noexcept
+	{
 		auto& larger_value  = digits.size() >= other.digits.size() ? *this : other;
 		auto& smaller_value = digits.size()  < other.digits.size() ? *this : other;
 
@@ -602,15 +653,19 @@ public:
 		return res;
 	}
 
-	void operator|= (const BigInt& other) noexcept {
+	void
+	operator|=(const BigInt& other) noexcept
+	{
 		if (digits.size() < other.digits.size())
 			digits.resize(other.digits.size());
 
 		std::transform(begin(digits), end(digits),
 			begin(other.digits), begin(digits), std::bit_or<_Digit_Type>());
 	}
-	BigInt operator| (const BigInt& other) const noexcept {
 
+	BigInt
+	operator|(const BigInt& other) const noexcept
+	{
 		auto& larger_value  = digits.size() >= other.digits.size() ? *this : other;
 		auto& smaller_value = digits.size()  < other.digits.size() ? *this : other;
 
@@ -619,8 +674,9 @@ public:
 		return res;
 	}
 
-	void operator<<= (const size_t __x) noexcept {
-
+	void
+	operator<<=(const size_t __x) noexcept
+	{
 		if (is_zero()) return;
 
 		const size_t f_shift = __x >> 5;
@@ -652,14 +708,17 @@ public:
 		std::fill(begin(digits), begin(digits) + f_shift, 0);
 	}
 
-	BigInt operator<< (const size_t __x) const noexcept {
+	BigInt
+	operator<<(const size_t __x) const noexcept
+	{
 		BigInt res = *this;
 		res <<= __x;
 		return res;
 	}
 
-	void operator>>= (const size_t __x) noexcept {
-
+	void
+	operator>>=(const size_t __x) noexcept
+	{
 		if (is_zero()) return;
 
 		const size_t f_shift = __x >> 5;
@@ -686,7 +745,9 @@ public:
     	remove_trailing_zeros();
 	}
 
-	BigInt operator>> (const size_t __x) const noexcept {
+	BigInt
+	operator>> (const size_t __x) const noexcept
+	{
 		BigInt res = *this;
 		res >>= __x;
 		return res;
@@ -697,8 +758,9 @@ public:
 
 	#ifndef BIGINT_ARITHMETIC_ADD
 
-	void operator+= (const BigInt& other) noexcept {
-
+	void
+	operator+=(const BigInt& other) noexcept
+	{
 		if (__sign == other.__sign)
 			return bits_adder(other);
 
@@ -710,7 +772,9 @@ public:
 		bits_subtracter(to_subtract);
 	}
 
-	BigInt operator+ (const BigInt& other) const noexcept {
+	BigInt
+	operator+(const BigInt& other) const noexcept
+	{
 		auto& larger_value  = digits.size() >= other.digits.size() ? *this : other;
 		auto& smaller_value = digits.size()  < other.digits.size() ? *this : other;
 
@@ -724,8 +788,9 @@ public:
 
 	#ifndef BIGINT_ARITHMETIC_SUBTRACT
 
-	void operator-= (const BigInt& other) noexcept {
-
+	void
+	operator-=(const BigInt& other) noexcept
+	{
 		if (__sign == other.__sign) {
 
 			if (smaller_than(other) == false)
@@ -740,8 +805,9 @@ public:
 		return bits_adder(other);
 	}
 
-	BigInt operator- (const BigInt& other) const noexcept {
-
+	BigInt
+	operator-(const BigInt& other) const noexcept
+	{
 		BigInt res = *this;
 		res -= other;
 		return res;
@@ -752,14 +818,17 @@ public:
 
 	#ifndef BIGINT_ARITHMETIC_MULTIPLY
 
-	void operator*= (const BigInt& other) noexcept {
-
+	void
+	operator*=(const BigInt& other) noexcept
+	{
 		bool ans_sign = __sign ^ other.__sign ^ 1;
 		*this = karatsuba_multiply(other);
 		__sign = ans_sign;
 	}
 
-	BigInt operator* (const BigInt& other) const noexcept {
+	BigInt
+	operator*(const BigInt& other) const noexcept
+	{
 		BigInt res = karatsuba_multiply(other);
 		res.__sign = __sign ^ other.__sign ^ 1;
 		return res;
@@ -771,7 +840,8 @@ public:
 
 	#ifndef BIGINT_ARITHMETIC_DIVIDE
 
-	void operator/= (const BigInt& other) {
+/* 	void
+	operator/=(const BigInt& other) {
 
 		if (other.is_zero())
 			throw std::invalid_argument("Divide by Zero Error!");
@@ -779,18 +849,15 @@ public:
 		if (smaller_than(other))
 			return set_to_value(0);
 
-	}
-
-
+	} */
 
 	#endif
-
-
-
 };
 
 
-inline std::ostream& operator<< (std::ostream &stream, const BigInt& num) {
+inline std::ostream&
+operator<<(std::ostream &stream, const BigInt& num)
+{
     stream << num.str();
     return stream;
 }
