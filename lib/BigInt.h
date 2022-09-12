@@ -94,13 +94,15 @@ private:
 		uint64_t carry = 0;
 		std::string res;
 
-		for (auto& value : __s) {
+		for (auto& value : __s)
+		{
 			carry += (value - '0') * multiplier;
 			res.push_back(static_cast<char>(carry % 10) + '0');
 			carry /= 10;
 		}
 
-		while (carry > 0) {
+		while (carry > 0)
+		{
 			res.push_back(static_cast<char>(carry % 10) + '0');
 			carry /= 10;
 		}
@@ -117,19 +119,22 @@ private:
 			s1.push_back('0');
 
 		uint32_t carry = 0;
-		for (size_t i = 0; i < __n; i++) {
+		for (size_t i = 0; i < __n; i++)
+		{
 			carry += (s1[i] - '0') + (s2[i] - '0');
 			s1[i] = static_cast<char>(carry % 10) + '0';
 			carry /= 10;
 		}
 
-		while (carry > 0 && __n < s1.length()) {
+		while (carry > 0 && __n < s1.length())
+		{
 			carry += s1[__n] - '0';
 			s1[__n++] = static_cast<char>(carry % 10) + '0';
 			carry /= 10;
 		}
 
-		while (carry > 0) {
+		while (carry > 0)
+		{
 			s1.push_back(static_cast<char>(carry % 10) + '0');
 			carry /= 10;
 		}
@@ -231,8 +236,8 @@ private:
 		auto __f2 = begin(other.digits);
 		auto __e2 = end(other.digits);
 
-		for (; __f2 != __e2; ++__f1, ++__f2) {
-
+		for (; __f2 != __e2; ++__f1, ++__f2)
+		{
 			if (*__f1 >= *__f2) {
 				*__f1 = *__f1 - *__f2;
 				continue;
@@ -273,13 +278,13 @@ private:
 			);
 		};
 
-		for (size_t i = 0; i < __n1; i += 2) {
-
+		for (size_t i = 0; i < __n1; i += 2)
+		{
 			uint64_t x0 = digits[i];
 	        uint64_t x1 = (i == __n1 - 1 ? 0 : digits[i + 1]);
 
-			for (size_t j = 0; j < __n2; j++) {
-
+			for (size_t j = 0; j < __n2; j++)
+			{
 				uint64_t w0 = x0 * other.digits[j];
 				uint64_t w1 = x1 * other.digits[j];
 
@@ -457,8 +462,8 @@ public:
 		auto in_decimal = string_to_vector(__s, 16);
 		int adder = 0;
 
-		while (!in_decimal.empty()) {
-
+		while (!in_decimal.empty())
+		{
 			uint64_t value = in_decimal.front();
 			uint32_t in_binary = 0;
 			
@@ -498,8 +503,8 @@ public:
 		std::string a = "61615590737044764481";			// 2 ** 64 in reverse
 		std::reverse(begin(res), end(res));
 		
-		for (size_t i = 2; i < digits.size(); i++) {
-			
+		for (size_t i = 2; i < digits.size(); i++)
+		{
 			arithmetic_add_strings(res, multiply(a, digits[i]));
 			a = multiply(a, 1ULL << 32);
 		}
@@ -532,7 +537,8 @@ public:
 		auto __f2 = rbegin(other.digits);
 		auto __e1 = rend(digits);
 
-		for (; __f1 != __e1; ++__f1, ++__f2) {
+		for (; __f1 != __e1; ++__f1, ++__f2)
+		{
 			if (*__f1 > *__f2) return true;
 			if (*__f1 < *__f2) return false;
 		}
@@ -550,7 +556,8 @@ public:
 		auto __f2 = rbegin(other.digits);
 		auto __e1 = rend(digits);
 
-		for (; __f1 != __e1; ++__f1, ++__f2) {
+		for (; __f1 != __e1; ++__f1, ++__f2)
+		{
 			if (*__f1 < *__f2) return true;
 			if (*__f1 > *__f2) return false;
 		}
@@ -791,8 +798,8 @@ public:
 	void
 	operator-=(const BigInt& other) noexcept
 	{
-		if (__sign == other.__sign) {
-
+		if (__sign == other.__sign)
+		{
 			if (smaller_than(other) == false)
 				return bits_subtracter(other);
 
