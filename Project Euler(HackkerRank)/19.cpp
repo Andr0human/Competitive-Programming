@@ -39,7 +39,6 @@ struct day_date {
             return true;
         return false;
     }
-
 };
 
 class Calendar {
