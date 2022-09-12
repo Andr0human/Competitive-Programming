@@ -6,18 +6,31 @@
 
 
 #include <iostream>
-#include "BigInt.h"
+#include "../lib/BigInt.h"
 
+using std::cin;
+using std::cout;
+
+int sum_of_digits(const std::string& __s) {
+    int res = 0;
+    for (const auto ch : __s)
+        res += static_cast<int>(ch - '0');
+    return res;
+}
 
 
 int main() {
-    int t; std::cin >> t;
+
+    int t;
+    cin >> t;
+
     while (t--) {
-        int N; std::cin >> N;
-        BigInt res;
-        res = 1;
-        for (int i = 1; i <= N; i++) res *= i;
-        std::cout << res.sum_of_digits() << std::endl;
+        int N;
+        cin >> N;
+        BigInt res = 1;
+        for (int i = 1; i <= N; i++)
+            res *= i;
+        cout << sum_of_digits(res.str()) << '\n';
     }
 
 }

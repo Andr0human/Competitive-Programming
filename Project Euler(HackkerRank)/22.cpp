@@ -15,7 +15,8 @@ const int mod = (int)1e9 + 7;
 
 int mySolution(vector<string> &names) {
 
-    string person; cin >> person;
+    string person;
+    cin >> person;
 
     for (int i = 0; i < names.size(); i++) {
         if (names[i] != person) continue;

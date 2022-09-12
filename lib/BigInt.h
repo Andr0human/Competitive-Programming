@@ -22,13 +22,6 @@
 #include <chrono>
 
 
-typedef uint32_t _Digit_Type;
-typedef std::vector<_Digit_Type> __bigvec__;
-
-const _Digit_Type BITS_PER_WORD = 32;
-const _Digit_Type WORD_MAX_VALUE = (1ULL << BITS_PER_WORD) - 1;
-
-
 /**
  * @Todo = Division
  * 
@@ -37,7 +30,13 @@ const _Digit_Type WORD_MAX_VALUE = (1ULL << BITS_PER_WORD) - 1;
 
 class BigInt {
 
+typedef uint32_t _Digit_Type;
+typedef std::vector<_Digit_Type> __bigvec__;
+
 private:
+
+	const static _Digit_Type BITS_PER_WORD = 32;
+	const static _Digit_Type WORD_MAX_VALUE = (1ULL << BITS_PER_WORD) - 1;
 
 	// Stores elements of number.
 	__bigvec__ digits;

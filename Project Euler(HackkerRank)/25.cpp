@@ -4,10 +4,10 @@
 ***/
 
 #include <iostream>
-#include "BigInt.h"
+#include "../lib/BigInt.h"
 
 std::vector<int> preCompute() {
-    const int maxN = 5002;
+    const size_t maxN = 5002;
     std::vector<int> arr(maxN + 1);
 
     arr[1] = 1;
@@ -19,7 +19,7 @@ std::vector<int> preCompute() {
         next = prev + curr;
         prev = curr;
         curr = next;
-        int len = curr.len();
+        size_t len = curr.str().size();
         if (len > maxN) break;
         if (!arr[len]) arr[len] = cnt;
 
@@ -34,10 +34,12 @@ int main() {
     std::ios::sync_with_stdio(0); std::cin.tie(0);
     auto fib = preCompute();
 
-    int t; std::cin >> t;
+    int t;
+    std::cin >> t;
     while (t--) {
-        int N; std::cin >> N;
-        std::cout << fib[N] << std::endl;
+        int N;
+        std::cin >> N;
+        std::cout << fib[N] << '\n';
     }
  
 }
