@@ -1,14 +1,3 @@
-/**
- * @file tools.h
- * @author Ayush Sinha
- * @brief Tools library contains common functions used in
- *        coding competitions.
- * @version 0.1
- * @date 2022-08-24
- * 
- * @copyright Copyright (c) 2022
- * 
- */
 
 #ifndef TOOLS_H
 #define TOOLS_H
@@ -23,23 +12,32 @@
 using std::vector;
 using std::string;
 
-/**
- * @note
- * 
- */
-
 
 namespace tools {
+
+// Maps every element of list to a new list using mapper_function.
+template <typename _ListType, typename _UnaryOperation> const auto
+mapper(const std::vector<_ListType>& __list, _UnaryOperation __unary_op) {
+
+    std::vector<__typeof__(__unary_op(__list.front()))>
+        __mapped_list( __list.size() );
+
+    std::transform(begin(__list), end(__list),
+                   begin(__mapped_list), __unary_op);
+    return __mapped_list;
+}
+
 
 // Checks if a sequence is pallindromic
 template<typename _RandomAccessIterator> constexpr bool
 is_pallindrome(_RandomAccessIterator __first, _RandomAccessIterator __last) {
 
-    size_t _Nm = (__last - __first) >> 1;
+    size_t _Nm = (__last - __first) / 2;
 
     while (_Nm-- > 0) {
         --__last;
-        if (*__first != *__last) return false;
+        if (*__first != *__last)
+            return false;
         ++__first;
     }
 
@@ -49,6 +47,7 @@ is_pallindrome(_RandomAccessIterator __first, _RandomAccessIterator __last) {
 
 // Returns no. of digits in number _X.
 constexpr int len(int64_t _X) {
+
     const int64_t lt = 1e14, m = 1e9, rt = 1e5;
     int _r = 0;
 
@@ -197,26 +196,54 @@ inline vector<string> strip(const vector<string> &word_list, const vector<char> 
 }
 
 
-// Returns a vector of all primes numbers in range from 1 to _X (Max allowed _X = 2e9).
-inline vector<int> primeListupto(int _X) {
-    if (_X <= 1) return vector<int>();
-    
-    vector<bool> _arr(_X / 2 + 2);
-    vector<int> prime_list(1, 2);
-    const int sqrt_X = static_cast<int>(sqrt(_X)) + 1;
+/**
+ * @brief Returns list of all prime no. between 2 to __x(inclusive).
+ * 
+ * @tparam _Tp Return type of primelist (int, long long)
+ * @param __x 
+ * @return std::vector<_Tp> 
+ */
+template <typename _Tp = int> std::vector<_Tp>
+primelistupto(const size_t __x) {
 
-    // uses prime sieve
-    for (int i = 0; (2 * i + 3) <= sqrt_X; i++)
-        if (_arr[i] != 0)
-            for (int j = 3 * i + 3; j <= _X / 2; j += 2 * i + 3)
-                _arr[j] = true;
-    
-    for (int i = 0; 2 * i + 3 <= _X; i++)
-        if (_arr[i] != 0)
-            prime_list.emplace_back(2 * i + 3);
-    
-    return prime_list;
+
+	if (__x < 2)
+		return std::vector<_Tp>();		// 0 and 1 are non-primes.
+
+	/**
+	 * ith index represents number (2*i + 3).
+	 * nums[i] == 0 => number at ith index is prime else non-prime.
+	**/
+	std::vector<bool> __pos((__x - 1) / 2);
+
+	std::vector<_Tp> __prime_list(1, 2);
+
+	const size_t __sqrt_x = static_cast<size_t>(sqrt(__x)) + 1;
+	const size_t __end = __pos.size();
+	const _Tp __end_tp = static_cast<_Tp>(__end);
+
+	// Algorithm uses prime sieve.
+
+	for (size_t i = 0; (2*i + 3) <= __sqrt_x; i++) {
+
+		if (__pos[i]) continue;	// number at ith __pos is non-prime
+
+		size_t __inc = 2 * i + 3;
+		size_t __start = ((__inc*__inc) - 3) / 2;
+
+		for (size_t j = __start; j < __end; j += __inc)
+			__pos[j] = true;				// Mark ith __pos to non-prime.
+	}
+
+
+	// Add marked primes indexes to a vector.
+	for (_Tp i = 0; i < __end_tp; i++)
+		if (__pos[i] == 0)
+			__prime_list.emplace_back(2*i + 3);
+
+	return __prime_list;
 }
+
 
 // Returns a vector of size __n with random values between low(inclusive) to high(exclusive).
 template<typename _Tp> vector <_Tp>
