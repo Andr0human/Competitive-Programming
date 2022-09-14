@@ -13,12 +13,14 @@ using std::vector;
 using std::string;
 
 
-namespace tools {
+namespace tools
+{
 
 // Maps every element of list to a new list using mapper_function.
-template <typename _ListType, typename _UnaryOperation> const auto
-mapper(const std::vector<_ListType>& __list, _UnaryOperation __unary_op) {
-
+template <typename _ListType, typename _UnaryOperation>
+const auto
+mapper(const std::vector<_ListType>& __list, _UnaryOperation __unary_op)
+{
     std::vector<__typeof__(__unary_op(__list.front()))>
         __mapped_list( __list.size() );
 
@@ -29,9 +31,10 @@ mapper(const std::vector<_ListType>& __list, _UnaryOperation __unary_op) {
 
 
 // Checks if a sequence is pallindromic
-template<typename _RandomAccessIterator> constexpr bool
-is_pallindrome(_RandomAccessIterator __first, _RandomAccessIterator __last) {
-
+template<typename _RandomAccessIterator>
+constexpr bool
+is_pallindrome(_RandomAccessIterator __first, _RandomAccessIterator __last)
+{
     size_t _Nm = (__last - __first) / 2;
 
     while (_Nm-- > 0) {
@@ -40,14 +43,14 @@ is_pallindrome(_RandomAccessIterator __first, _RandomAccessIterator __last) {
             return false;
         ++__first;
     }
-
     return true;
 }
 
 
 // Returns no. of digits in number _X.
-constexpr int len(int64_t _X) {
-
+constexpr int
+len(int64_t _X)
+{
     const int64_t lt = 1e14, m = 1e9, rt = 1e5;
     int _r = 0;
 
@@ -61,10 +64,13 @@ constexpr int len(int64_t _X) {
 
 
 // Returns A to the power B.
-template <typename T, typename U>
-constexpr inline T pow(T base, U expo) {
-    T res = 1;
-    while (expo) {
+template <typename _BaseType, typename _ExpoType>
+constexpr _BaseType
+pow(_BaseType base, _ExpoType expo)
+{
+    _BaseType res = 1;
+    while (expo > 0)
+    {
         res *= base * (expo & 1);
         expo >>= 1;
         base *= base;
@@ -72,11 +78,15 @@ constexpr inline T pow(T base, U expo) {
     return res;
 }
 
+
 // Returns A to the power B mod M.
-template <typename T, typename U, typename V>
-constexpr inline T pow(T base, U expo, V mod) {
-    T res = 1;
-    while (expo) {
+template <typename _BaseType, typename _ExpoType, typename _ModType>
+constexpr inline _BaseType
+pow(_BaseType base, _ExpoType expo, _ModType mod)
+{
+    _BaseType res = 1;
+    while (expo)
+    {
         if (expo & 1) res = (res * base) % mod;
         expo >>= 1;
         base = (base * base) % mod;
@@ -84,12 +94,17 @@ constexpr inline T pow(T base, U expo, V mod) {
     return res;
 }
 
+
 // Returns the binary format for positive values for base 2 to 9.
-const inline string bin(size_t num, size_t base = 2) {
-    if (num == 0) return "0";
+inline string
+bin(size_t num, size_t base = 2)
+{
+    if (num == 0)
+        return string("0");
     
     string in_binary;
-    while(num > 0) {
+    while(num > 0)
+    {
         in_binary.push_back(static_cast<char>(num % base) + '0');
         num /= base;
     }
@@ -97,26 +112,27 @@ const inline string bin(size_t num, size_t base = 2) {
     return in_binary;
 }
 
+
 // Returns the least significant bit of an unsigned integer.
-inline size_t lSb(size_t N) {
-    return N ^ (N & (N - 1));
-}
+inline size_t
+lSb(size_t __x)
+{ return __x ^ (__x & (__x - 1)); }
 
 // Returns the most significant bit of an unsigned integer.
-inline size_t mSb(size_t __x) {
-    if (__x == 0) return 0;
-    return (1ULL << (63 - __builtin_clzll(__x)));
-}
+inline size_t
+mSb(size_t __x)
+{ return __x != 0 ? (1ULL << (63 - __builtin_clzll(__x))) : 0; }
 
 // Returns the number of set bits in an integer.
-inline int popCount(int32_t __x) {
-    return __builtin_popcount(__x);
-}
+inline int
+popCount(int32_t __x)
+{ return __builtin_popcount(__x); }
 
 // Returns the number of set bits in a long integer.
-inline int popCount(int64_t __x) {
-    return __builtin_popcountll(__x);
-}
+inline int
+popCount(int64_t __x)
+{ return __builtin_popcountll(__x); }
+
 
 /**
  * @brief Extract and returns all elements from a single string.
@@ -125,13 +141,16 @@ inline int popCount(int64_t __x) {
  * @param sep separator
  * @return const vector<string> 
  */
-inline vector<string> split(const std::string &__s, const char sep) {
+inline vector<string>
+split(const std::string &__s, const char sep)
+{
     vector<string> res;
     size_t prev = 0, __n = __s.length();
 
-    for (size_t i = 0; i < __n; i++) {
-        if (__s[i] != sep) continue;
-
+    for (size_t i = 0; i < __n; i++)
+    {
+        if (__s[i] != sep)
+            continue;
         if (i > prev)
             res.emplace_back(__s.substr(prev, i - prev));
         prev = i + 1;
@@ -139,9 +158,9 @@ inline vector<string> split(const std::string &__s, const char sep) {
 
     if (__n > prev)
         res.emplace_back(__s.substr(prev, __n - prev));
-
     return res;
 }
+
 
 /**
  * @brief Returns the stripped string from both ends
@@ -150,16 +169,16 @@ inline vector<string> split(const std::string &__s, const char sep) {
  * @param strip_list List of chars to be stripped from both ends
  * @return const string 
  */
-inline string strip(const string &__s, const vector<char> &strip_list = vector<char>{' '}) {
-    
+inline string
+strip(const string &__s, const vector<char> &strip_list = vector<char>{' '})
+{    
     if (__s.empty()) return __s;
 
     // Checks if a string element belongs to strip_list
-    const auto in_strip_list = [&strip_list] (char ch) {
+    const auto in_strip_list = [&strip_list] (char ch)
+    {
         return std::any_of(begin(strip_list), end(strip_list),
-            [ch] (char val) {
-                return val == ch;
-            }
+            [ch] (char val) { return val == ch; }
         );
     };
 
@@ -181,32 +200,16 @@ inline string strip(const string &__s, const vector<char> &strip_list = vector<c
 
 
 /**
- * @brief Returns a vector of strings stripped from both ends
- * 
- * @param word_list vector of strings
- * @param trim_list list of chars to be stripped
- * @return vector<string> 
- */
-inline vector<string> strip(const vector<string> &word_list, const vector<char> &strip_list = vector<char>{' '}) {
-
-    auto new_list = word_list;
-    for (auto& word : new_list) 
-        word = strip(word, strip_list);
-    return new_list;
-}
-
-
-/**
  * @brief Returns list of all prime no. between 2 to __x(inclusive).
  * 
  * @tparam _Tp Return type of primelist (int, long long)
  * @param __x 
  * @return std::vector<_Tp> 
  */
-template <typename _Tp = int> std::vector<_Tp>
-primelistupto(const size_t __x) {
-
-
+template <typename _Tp = int>
+std::vector<_Tp>
+primelistupto(const size_t __x)
+{
 	if (__x < 2)
 		return std::vector<_Tp>();		// 0 and 1 are non-primes.
 
@@ -218,14 +221,14 @@ primelistupto(const size_t __x) {
 
 	std::vector<_Tp> __prime_list(1, 2);
 
-	const size_t __sqrt_x = static_cast<size_t>(sqrt(__x)) + 1;
+	const size_t __sqrt_x = static_cast<size_t>(sqrtl(__x)) + 1;
 	const size_t __end = __pos.size();
 	const _Tp __end_tp = static_cast<_Tp>(__end);
 
 	// Algorithm uses prime sieve.
 
-	for (size_t i = 0; (2*i + 3) <= __sqrt_x; i++) {
-
+	for (size_t i = 0; (2*i + 3) <= __sqrt_x; i++)
+    {
 		if (__pos[i]) continue;	// number at ith __pos is non-prime
 
 		size_t __inc = 2 * i + 3;
@@ -246,9 +249,10 @@ primelistupto(const size_t __x) {
 
 
 // Returns a vector of size __n with random values between low(inclusive) to high(exclusive).
-template<typename _Tp> vector <_Tp>
-random_array(size_t __n, _Tp low, _Tp high) {
-    
+template<typename _Tp>
+vector <_Tp>
+random_array(size_t __n, _Tp low, _Tp high)
+{    
     // Random Value Generator
     std::mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
     auto rand_value_gen = [&] () mutable
@@ -269,8 +273,9 @@ random_array(size_t __n, _Tp low, _Tp high) {
  * @return vector<_Tp> 
  */
 template<typename _Tp>
-vector<_Tp> remove_duplicates(vector<_Tp> list) {
-
+vector<_Tp>
+remove_duplicates(vector<_Tp> list)
+{
     if (list.empty())
         return vector<_Tp>();
 
@@ -293,15 +298,17 @@ vector<_Tp> remove_duplicates(vector<_Tp> list) {
  * @return vector<_Tp> 
  */
 template<typename _Tp>
-vector<_Tp> remove_duplicates_with_order_preserve(const vector<_Tp>& list) {
-
+vector<_Tp>
+remove_duplicates_with_order_preserve(const vector<_Tp>& list)
+{
     std::unordered_set<_Tp> unique_values;
     vector<_Tp> non_duplicated_list;
 
     for (const _Tp& value : list)
         unique_values.insert(value);
 
-    for (const _Tp& value : list) {
+    for (const _Tp& value : list)
+    {
         if (unique_values.find(value) == unique_values.end())
             continue;
         non_duplicated_list.emplace_back(value);
@@ -312,59 +319,84 @@ vector<_Tp> remove_duplicates_with_order_preserve(const vector<_Tp>& list) {
 }
 
 // Returns a vector of digits of number (0th index represents unit place of number)
-template<typename T>
-vector<int> extract_digits(T _X) {
-    if (_X == 0) return vector<int>(1, 0);
-    _X = std::abs(_X);
+vector<int>
+extract_digits(size_t __x)
+{
+    if (__x == 0)
+        return vector<int>(1, 0);
     
-    vector<int> res;
-    while (_X) {
-        res.emplace_back(_X % 10);
-        _X /= 10;
+    vector<int> digits;
+    while (__x)
+    {
+        digits.emplace_back(__x % 10);
+        __x /= 10;
     }
-    return res;
+    return digits;
 }
 
-// Returns a vector of all prime factors of _X.
-template<typename T> 
-vector<T> prime_factors_of(T _X) {
-    vector<T> res;
-    if ((_X & 1) == 0) {
+// Returns a vector of all prime factors of __x.
+template<typename _Tp = uint64_t>
+vector<_Tp>
+prime_factors(size_t __x)
+{
+    vector<_Tp> res;
+    if ((__x & 1) == 0)
+    {
         res.emplace_back(2);
-        while ((_X & 1) == 0) _X >>= 1;
+        while ((__x & 1) == 0)
+            __x >>= 1;
     }
-    for (T i = 3; i * i <= _X; i += 2) {
-        if (!(_X % i)) {
-            res.emplace_back(i);
-            while (!(_X % i)) _X /= i;
-        }
+  
+    for (size_t i = 3; i * i <= __x; i += 2)
+    {
+        if ((__x % i) != 0) continue;
+        res.emplace_back(i);
+        while ((__x % i) == 0)
+            __x /= i;
     }
 
-    if (_X > 1) res.emplace_back(_X);
+    if (__x > 1)
+        res.emplace_back(__x);
     return res;
 }
 
 // Returns a vector of all factors of _X.
-template<typename T> 
-vector<T> factors_of(T _X, bool _sorted = true) {
-    if (_X == (T)1) return vector<T>{1};
-    vector<T> factors = {1, _X};
-    for (T i = 2; i * i <= _X; i++) {
-        if (!(_X % i)) {
-            factors.emplace_back(i);
-            if (i != _X / i) factors.emplace_back(_X / i);
-        }
+template<typename _Tp = uint64_t> 
+vector<_Tp>
+factors(size_t __x)
+{
+    if (__x == 1ULL)
+        return vector<_Tp>{1};
+
+    vector<_Tp> factors = {1, __x};
+    size_t __sqrt_x = static_cast<size_t>(sqrtl(__x)) + 1;
+
+    if (__sqrt_x * __sqrt_x > __x)
+    {
+        --__sqrt_x;
+        factors.emplace_back(__sqrt_x);
     }
-    if (_sorted) sort(begin(factors), end(factors));
+
+    for (size_t i = 2; i < __sqrt_x; i++)
+    {
+        if (__x % i != 0) continue;
+        factors.emplace_back(i);
+        factors.emplace_back(__x / i);
+    }
+    std::sort(begin(factors), end(factors));
     return factors;
 }
 
 // Returns if a number is prime.
-constexpr bool is_prime(size_t _X) {
-    if (_X == 2) return true;
-    if (_X < 2 || !(_X % 2)) return false;
-    for (size_t i = 3; i * i <= _X; i += 2)
-        if (!(_X % i)) return false;
+constexpr bool
+is_prime(size_t __x)
+{
+    if (__x == 2)
+        return true;
+    if (__x < 2 || (__x % 2) == 0)
+        return false;
+    for (size_t i = 3; i * i <= __x; i += 2)
+        if ((__x % i) == 0) return false;
     return true;
 }
 

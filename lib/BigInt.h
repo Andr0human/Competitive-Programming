@@ -152,17 +152,15 @@ private:
 		uint64_t updater_value = 0, c = 0;
 		const uint64_t p1 = static_cast<uint64_t>(1e16) >> right_shift;
 
-		const auto update_element = [&] (uint64_t& __x) {
-
+		const auto update_element = [&] (uint64_t& __x)
+		{
 			c = __x;
 			__x = updater_value * p1 + (c >> right_shift);
 			updater_value = c & FILTER;
 		};
 
-
 		for_each(rbegin(A), rend(A), update_element);
 		while (!A.empty() && A.back() == 0) A.pop_back();
-
 	}
 
 	static std::vector<uint64_t>
@@ -178,8 +176,8 @@ private:
 		);
 		auto __rf = rbegin(in_decimal);
 
-		const auto add_to_vector = [&__rf, &__s] (size_t& current, size_t end) {
-
+		const auto add_to_vector = [&__rf, &__s] (size_t& current, size_t end) 
+		{
 			for (; current < end; ++current)
 				*__rf = *__rf * 10 + (__s[current] - '0');
 			++__rf;
@@ -264,12 +262,12 @@ private:
 
 		std::vector<uint64_t> answer(__n1 + __n2 + 2);
 
-		const auto update_answer_array = [&answer] () {
-
+		const auto update_answer_array = [&answer] ()
+		{
 			uint64_t carry = 0;
-
 			std::transform(begin(answer), end(answer), begin(answer),
-				[&carry] (uint64_t __x) {
+				[&carry] (uint64_t __x)
+				{
 					carry += __x;
 					__x = carry & WORD_MAX_VALUE;
 					carry >>= BITS_PER_WORD;
@@ -368,9 +366,7 @@ private:
 	#endif
 
 
-public:
-
-
+	public:
 	#ifndef BIGINT_FUNCTIONS
 
 	static BigInt
@@ -452,7 +448,7 @@ public:
 	}
 
 
-	BigInt (const std::string& __s)
+	BigInt(const std::string& __s)
 	{
 		if (invalid_string_constructor(__s))
 			throw std::invalid_argument("Invalid string passed as contructor!");
