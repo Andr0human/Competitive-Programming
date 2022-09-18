@@ -21,9 +21,11 @@ template <typename _ListType, typename _UnaryOperation>
 const auto
 mapper(const std::vector<_ListType>& __list, _UnaryOperation __unary_op)
 {
+    // Generates a new_list using the return type of unary function.
     std::vector<__typeof__(__unary_op(__list.front()))>
         __mapped_list( __list.size() );
 
+    // Map every element of __list to new_list using unary function.
     std::transform(begin(__list), end(__list),
                    begin(__mapped_list), __unary_op);
     return __mapped_list;
@@ -35,12 +37,16 @@ template<typename _RandomAccessIterator>
 constexpr bool
 is_pallindrome(_RandomAccessIterator __first, _RandomAccessIterator __last)
 {
-    size_t _Nm = (__last - __first) / 2;
+    size_t iters = (__last - __first) / 2;
 
-    while (_Nm-- > 0) {
+    while (iters-- > 0)
+    {
         --__last;
+
+        // Compares the first element to last element in the list.
         if (*__first != *__last)
             return false;
+
         ++__first;
     }
     return true;
@@ -63,7 +69,15 @@ len(int64_t _X)
 }
 
 
-// Returns A to the power B.
+/**
+ * @brief Returns A to power B.
+ * Uses binary exponentiation.
+ * @tparam _BaseType 
+ * @tparam _ExpoType 
+ * @param base 
+ * @param expo 
+ * @return constexpr _BaseType 
+ */
 template <typename _BaseType, typename _ExpoType>
 constexpr _BaseType
 pow(_BaseType base, _ExpoType expo)
@@ -79,7 +93,17 @@ pow(_BaseType base, _ExpoType expo)
 }
 
 
-// Returns A to the power B mod M.
+/**
+ * @brief Retuns A to the power B mod m.
+ * 
+ * @tparam _BaseType 
+ * @tparam _ExpoType 
+ * @tparam _ModType 
+ * @param base 
+ * @param expo 
+ * @param mod 
+ * @return constexpr _BaseType 
+ */
 template <typename _BaseType, typename _ExpoType, typename _ModType>
 constexpr inline _BaseType
 pow(_BaseType base, _ExpoType expo, _ModType mod)
@@ -201,13 +225,13 @@ strip(const string &__s, const vector<char> &strip_list = vector<char>{' '})
 
 /**
  * @brief Returns list of all prime no. between 2 to __x(inclusive).
- * 
+ * Time Complexity : O(__x * log(log(__x)))
  * @tparam _Tp Return type of primelist (int, long long)
  * @param __x 
  * @return std::vector<_Tp> 
  */
 template <typename _Tp = int>
-std::vector<_Tp>
+vector<_Tp>
 primelistupto(const size_t __x)
 {
 	if (__x < 2)
@@ -217,9 +241,9 @@ primelistupto(const size_t __x)
 	 * ith index represents number (2*i + 3).
 	 * nums[i] == 0 => number at ith index is prime else non-prime.
 	**/
-	std::vector<bool> __pos((__x - 1) / 2);
+	vector<bool> __pos((__x - 1) / 2);
 
-	std::vector<_Tp> __prime_list(1, 2);
+	vector<_Tp> __prime_list(1, 2);
 
 	const size_t __sqrt_x = static_cast<size_t>(sqrtl(__x)) + 1;
 	const size_t __end = __pos.size();
@@ -274,17 +298,31 @@ random_array(size_t __n, _Tp low, _Tp high)
  */
 template<typename _Tp>
 vector<_Tp>
-remove_duplicates(vector<_Tp> list)
+remove_duplicates(vector<_Tp> __list)
 {
-    if (list.empty())
+    /**
+     * @brief 
+     * vector<int> nums{1, 4, 1, 2, 4, 7, 5, 5};
+     * auto unique_nums = remove_duplicates(nums);
+     * unique_nums => [1, 2, 4, 5, 7]
+    **/
+
+    if (__list.empty())
         return vector<_Tp>();
 
-    sort(begin(list), end(list));
-    vector<_Tp> non_duplicated_list(1, list.front());
+    // Sort the __list.
+    sort(begin(__list), end(__list));
 
-    for (const _Tp& value : list)
-        if (non_duplicated_list.back() != value)
-            non_duplicated_list.emplace_back(value);
+    // Create a new_list with the first element of __list.
+    vector<_Tp> non_duplicated_list(1, __list.front());
+
+    for (const _Tp& element : __list)
+    {
+        // If element in new_list, then ignore
+        // otherwise add the element to new_list.
+        if (non_duplicated_list.back() != element)
+            non_duplicated_list.emplace_back(element);
+    }
 
     return non_duplicated_list;
 }
@@ -299,18 +337,32 @@ remove_duplicates(vector<_Tp> list)
  */
 template<typename _Tp>
 vector<_Tp>
-remove_duplicates_with_order_preserve(const vector<_Tp>& list)
+remove_duplicates_with_order_preserve(const vector<_Tp>& __list)
 {
+    /**
+     * @brief 
+     * vector<int> nums{1, 4, 1, 2, 4, 7, 5, 5};
+     * auto unique_nums = remove_duplicates_with_order_preserve(nums);
+     * unique_nums => [1, 4, 2, 7, 5]
+    **/
+
     std::unordered_set<_Tp> unique_values;
     vector<_Tp> non_duplicated_list;
 
-    for (const _Tp& value : list)
+    // Store all elements of list in a set.
+    for (const _Tp& value : __list)
         unique_values.insert(value);
 
-    for (const _Tp& value : list)
+    for (const _Tp& value : __list)
     {
+        /** If element is in set of unique_values,
+         * add to new_list and remove element from list.
+         * If element not in list, then element has
+         * already accounted and should be ignored.
+        **/
         if (unique_values.find(value) == unique_values.end())
             continue;
+
         non_duplicated_list.emplace_back(value);
         unique_values.erase(value);
     }
@@ -334,7 +386,16 @@ extract_digits(size_t __x)
     return digits;
 }
 
-// Returns a vector of all prime factors of __x.
+/**
+ * @brief
+ * Returns a vector of all prime factors of __x.
+ * default return_list_type if unsigned long long,
+ * use prime_factors<int>(__x) to get list of int_type.
+ * 
+ * @tparam _Tp 
+ * @param __x 
+ * @return vector<_Tp> 
+ */
 template<typename _Tp = uint64_t>
 vector<_Tp>
 prime_factors(size_t __x)
@@ -387,16 +448,27 @@ factors(size_t __x)
     return factors;
 }
 
-// Returns if a number is prime.
+/**
+ * @brief Returns if __x is prime.
+ * Time Complexity : O(sqrt(__x))
+ * 
+ * @param __x 
+ * @return true 
+ * @return false 
+ */
 constexpr bool
 is_prime(size_t __x)
 {
     if (__x == 2)
         return true;
+
     if (__x < 2 || (__x % 2) == 0)
         return false;
+
+    // Check if __x is divisible by a odd number in range[3, sqrt(__x)].
     for (size_t i = 3; i * i <= __x; i += 2)
         if ((__x % i) == 0) return false;
+
     return true;
 }
 
