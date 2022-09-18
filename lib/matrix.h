@@ -95,7 +95,6 @@ private:
     #endif
 
 public:
-
     #ifndef __MATRIX_INIT__
     // Returns an 1*1 [0] matrix.
     inline matrix()
@@ -266,8 +265,9 @@ public:
 
         const bool is_point_value = std::is_same<_Tp, double>() || std::is_same<_Tp, float>();
 
-        const auto add_num_to_string = [&] (string &res, const _Tp val, const size_t __n) {
-
+        const auto add_num_to_string = [&] (string &res,
+                const _Tp val, const size_t __n)
+        {
             int gap = *(begin(m_vals) + __n) + neg_el - (digit_len(val) + is_neg(val));
             while (gap--) res.push_back(' ');
             res += std::to_string(val);
@@ -527,8 +527,8 @@ fast_mul(const matrix<_Tp> &a, const matrix<_Tp> &b)
     if (a.row_size() < 128)
         return a * b;
 
-    auto split_matrix = [] (const matrix<_Tp> &mt, matrix<_Tp> &p1, matrix<_Tp> &p2,
-                            matrix<_Tp> &p3, matrix<_Tp> &p4)
+    auto split_matrix = [] (const matrix<_Tp> &mt, matrix<_Tp> &p1,
+            matrix<_Tp> &p2, matrix<_Tp> &p3, matrix<_Tp> &p4)
     {
         const auto &[__r, __c] = mt.size();
         
@@ -536,11 +536,10 @@ fast_mul(const matrix<_Tp> &a, const matrix<_Tp> &b)
         p2 = mt.partition(0, __r / 2, __c / 2, __c);
         p3 = mt.partition(__r / 2, __r, 0, __c / 2);
         p4 = mt.partition(__r / 2, __r, __c / 2, __c);
-
     };
 
-    auto join_matrix = [] (matrix<_Tp> &p1, matrix<_Tp> &p2,
-                           matrix<_Tp> &p3, matrix<_Tp> &p4)
+    auto join_matrix = [] (matrix<_Tp> &p1,
+            matrix<_Tp> &p2, matrix<_Tp> &p3, matrix<_Tp> &p4)
     {
         p1.pad_columns(p2);
         p3.pad_columns(p4);
