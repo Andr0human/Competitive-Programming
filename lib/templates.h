@@ -57,7 +57,7 @@ print (const pair<_Tp1, _Tp2>& value, const string end = "") {
          << value.second << end;
 }
 template<typename _Tp> void
-print (const vector<_Tp>& list, const string sep = " ", const string end = "\n") {
+print (const vector<_Tp>& list, const string end = "\n", const string sep = " ") {
 
     if (list.empty())
         return print(end);
@@ -71,7 +71,7 @@ print (const vector<_Tp>& list, const string sep = " ", const string end = "\n")
     print(*__first, end);
 }
 template<typename _Tp> void
-print (const vector<vector<_Tp>>& list, const string sep = "\n", const string end = "\n") {
+print (const vector<vector<_Tp>>& list, const string end = "\n", const string sep = "\n") {
 
     if (list.empty())
         return print(end);
@@ -85,7 +85,7 @@ print (const vector<vector<_Tp>>& list, const string sep = "\n", const string en
     print(*__first, " ", end);
 }
 template<typename _Tp1, typename _Tp2> void
-print (const map<_Tp1, _Tp2>& list, const string sep = "\n", const string end = "\n") {
+print (const map<_Tp1, _Tp2>& list, const string end = "\n", const string sep = "\n") {
 
     if (list.empty())
         return print(end);
