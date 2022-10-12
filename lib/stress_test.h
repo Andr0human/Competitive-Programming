@@ -17,6 +17,8 @@
  * 
  */
 
+#ifndef __STRESS_TEST_H__
+#define __STRESS_TEST_H__
 
 #include <iostream>
 #include <vector>
@@ -29,6 +31,8 @@ using std::string;
 using std::pair;
 using std::tuple;
 using std::vector;
+
+#ifndef __TEMPLATES_H__
 
 #ifndef __PRINT_FUNCTIONS__
 
@@ -98,6 +102,8 @@ print(const std::map<_Tp1, _Tp2>& list, const string end = "\n", const string se
 
 #endif
 
+#endif
+
 #ifndef __PRINT_TUPLE__
 
 // printTuple function to print tuples.
@@ -143,7 +149,7 @@ stress_test(const auto& __f1, const auto& __f2,
         // Generate parameters for functions using
         // user-provided parameter_generator function.
         const auto params = params_gen();
-        
+
         // Stores the result of both functions for the generated params.
         const auto res1 = std::apply(__f1, params);
         const auto res2 = std::apply(__f2, params);
@@ -190,18 +196,23 @@ stress_test(const auto& __f1, const auto& __f2,
     }
 }
 
+
+#endif
+
 /***
 
             Sample-Test
  
-int sum_of_vector1(int n, vector<int> arr) {
+int sum_of_vector1(int n, vector<int> arr)
+{
     int res = 0;
     for (auto value : arr)
         res += value;
     return res;
 }
 
-int sum_of_vector2(int n, vector<int> arr) {
+int sum_of_vector2(int n, vector<int> arr)
+{
     int res = 0;
     for (auto value : arr)
         res += value;

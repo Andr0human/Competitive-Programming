@@ -1,6 +1,6 @@
 
-#ifndef TOOLS_H
-#define TOOLS_H
+#ifndef __TOOLS_H__
+#define __TOOLS_H__
 
 #include <cstdint>
 #include <vector>

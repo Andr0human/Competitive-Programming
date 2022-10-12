@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef BIGINT_H
-#define BIGINT_H
+#ifndef __BIGINT_H__
+#define __BIGINT_H__
 
 
 #include <iostream>
@@ -33,7 +33,7 @@ class BigInt
 	typedef 				uint32_t 	_Digit_Type;
 	typedef std::vector<_Digit_Type> 	 __bigvec__;
 
-private:
+  private:
 	const static _Digit_Type BITS_PER_WORD = 32;
 	const static _Digit_Type WORD_MAX_VALUE = (1ULL << BITS_PER_WORD) - 1;
 
@@ -366,7 +366,7 @@ private:
 	#endif
 
 
-	public:
+  public:
 	#ifndef BIGINT_FUNCTIONS
 
 	static BigInt

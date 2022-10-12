@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef PERF_H
-#define PERF_H
+#ifndef __PERF_H__
+#define __PERF_H__
 
 #include <iostream>
 #include <chrono>

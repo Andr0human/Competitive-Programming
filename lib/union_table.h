@@ -10,8 +10,8 @@
  */
 
 
-#ifndef UNION_TABLE_H
-#define UNION_TABLE_H
+#ifndef __UNION_TABLE_H__
+#define __UNION_TABLE_H__
 
 
 class union_table {

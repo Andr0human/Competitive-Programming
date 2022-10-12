@@ -11,7 +11,8 @@
 
 
 
-#ifndef __TEMPLATES__
+#ifndef __TEMPLATES_H__
+#define __TEMPLATES_H__
 
 #include <iostream>
 #include <cstdint>
