@@ -11,9 +11,10 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.18362.0",
-            "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
+            // "compilerPath": "C:/msys64/mingw64/bin/g++.exe",             // WINDOWS
+            "compilerPath": "/usr/bin/g++",                                 // LINUX
             "cStandard": "c17",
-            "cppStandard": "c++20",
+            "cppStandard": "c++23",
             "intelliSenseMode": "windows-gcc-x64",
             "configurationProvider": "ms-vscode.makefile-tools"
         }
