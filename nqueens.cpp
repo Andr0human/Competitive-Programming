@@ -1,4 +1,18 @@
 
+/**
+ * @file nqueens.cpp
+ * @author Ayush Sinha
+ * @brief 
+ * @version 0.1
+ * @date 2023-01-15
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ * 
+ * Solve 8 queens problems using bitwise operations and attack-tables.
+ * 
+ */
+
 #include <iostream>
 #include <array>
 #include "lib/perf.h"
@@ -6,8 +20,6 @@
 using std::array;
 using std::cout;
 using std::endl;
-
-uint64_t node_counts = 0;
 
 
 #ifndef NQUEENS_OLD
@@ -165,12 +177,5 @@ int main()
     cout << "Time_bit   = " << time_bit   << endl;
 
     cout << "IMP = " << time_array / time_bit << " x." << endl;
-
-
-    // auto res = bit_nqueens(8, 8, 0, (1 << 8) - 1);
-    // auto res = nqueens(8);
-    // cout << res << endl;
-
-    // cout <<  "Nodes = " << node_counts << endl;
 }
 
