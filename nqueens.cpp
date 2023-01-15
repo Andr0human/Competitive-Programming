@@ -2,14 +2,14 @@
 /**
  * @file nqueens.cpp
  * @author Ayush Sinha
- * @brief 
+ * @brief
+ * Solve 8 queens problems using bitwise operations and attack-tables.
+ * 
+ * 
  * @version 0.1
  * @date 2023-01-15
  * 
  * @copyright Copyright (c) 2023
- * 
- * 
- * Solve 8 queens problems using bitwise operations and attack-tables.
  * 
  */
 
