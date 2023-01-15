@@ -1,3 +1,19 @@
+/**
+ * @file sudoku.cpp
+ * @author Ayush Sinha
+ * @brief 
+ * Sodoku Solver
+ * 
+ * -> sudoku solve 'position' :- Find and print solution if the position is valid.
+ * -> sudoku count 'position' :- Counts total no. of solution for any position.
+ * 
+ * @version 0.1
+ * @date 2023-01-15
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 
 #include <iostream>
 #include <algorithm>
@@ -665,8 +681,6 @@ count(const std::string& __pos, const int threadCount)
 
 void task(int argc, char **argv)
 {
-    sudoku::count("1234567894567891237891234562143");
-    sudoku::multi_thread::count("12345678945678912378912345621", 2);
 
     if (argc < 3)
     {
@@ -677,9 +691,9 @@ void task(int argc, char **argv)
     std::string task = std::string(argv[1]);
     std::string __pos = std::string(argv[2]);
 
-    if (task == "-count")
+    if (task == "count")
         sudoku::multi_thread::count(__pos, 6);
-    else if (task == "-solve")
+    else if (task == "solve")
         sudoku::solve(__pos);
 }
 
@@ -698,47 +712,5 @@ int main(int argc, char **argv)
     //     std::cout << val.first << " -> " << val.second << std::endl;
 
 }
-
-
-/*
-
-    Total = 6.671 × 10 ^ 21
-    6670903752021072936960
-
-    338'610'585'600 bands post.
-    948'109'639'680 bands calc.
-
-    933'120
-    2'612'736
-
-    4389396480
-    Time : 160.265 sec.
-
-    4389396480 * 216
-*/
-
-
-// Positions:
-// 1234567894567891237891234562143
-// 123456789456789123789123456 -> 7802998272
-// "600090208000000300040600000050002807800000030000070040400020609001005000000000070"
-
-/*
- 1. 7802998272
- 2. 7383108096
- 3. 7383108096
- 4. 7216676352
- 5. 7216676352
- 6. 7383108096
- 7. 7383108096
- 8. 7347449088
- 9. 7119019008
-10. 7108816896
-11. 7108816896
-12. 7119019008
-13. 7383108096
-14. 7119019008
-
-*/
 
 
