@@ -136,8 +136,7 @@ void
 stress_test(const auto& __f1, const auto& __f2,
             const auto& params_gen,
             size_t testcases = 10'000,
-            size_t max_failed_cases = 5,
-            bool sort_cases = false)
+            size_t max_failed_cases = 5)
 {
     // Declare a vector of type (return_type of param_gen, unsigned long)
     // Used to store parameters of functions and testcase_index
@@ -171,8 +170,8 @@ stress_test(const auto& __f1, const auto& __f2,
 
     using std::cout;
 
-    if (sort_cases)
-        std::sort(begin(failed_cases), end(failed_cases));
+    // if (sort_cases)
+    //     std::sort(begin(failed_cases), end(failed_cases));
 
     for (const auto& [failed_case_params, index] : failed_cases)
     {
@@ -186,8 +185,9 @@ stress_test(const auto& __f1, const auto& __f2,
 
         cout << "Testcase " << index << '\n';
         cout << "Res1 = " << std::apply(__f1, failed_case_params) << '\n';
-        cout << "Res2 = " << std::apply(__f2, failed_case_params) << '\n';
+        cout << "Res2 = " << std::apply(__f2, failed_case_params) << '\n\n';
 
+        cout << "Params : \n";
         // Print the tuple containing parameters
         printTuple(failed_case_params);
 
