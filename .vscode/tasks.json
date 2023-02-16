@@ -7,7 +7,7 @@
 
       "label": "C/C++: g++ build active file",
 
-      "command": "C:/msys64/mingw64/bin/g++.exe",      // WINDOWS
+      "command": "C:/msys64/ucrt64/bin/g++.exe",      // WINDOWS
       // "command": "/usr/bin/g++",                          // LINUX
 
       "args": ["-std=c++23", "-O3", "-Wextra", "-Wpedantic", "-Wconversion", "-Wshadow", "-Wall", "-march=native",
