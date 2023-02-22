@@ -34,7 +34,7 @@ public:
         id = new int[__n];
 
         for (int i = 0; i < __n; i++)
-            sz[i] = id[i] = 1;
+            id[i] = i, sz[i] = 1;
     }
 
     int
