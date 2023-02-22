@@ -173,7 +173,7 @@ split(const std::string &__s, const char sep)
 
     for (size_t i = 0; i <= __n; i++)
     {
-        if (i < __n and __s[i] != sep)
+        if ((i < __n) and (__s[i] != sep))
             continue;
         if (i > prev)
             res.emplace_back(__s.substr(prev, i - prev));
@@ -187,12 +187,12 @@ split(const std::string &__s, const char sep)
 /**
  * @brief Returns the stripped string from both ends
  * 
- * @param __s String
+ * @param __s string
  * @param strip_list List of chars to be stripped from both ends
- * @return const string 
+ * @return string 
  */
 inline string
-strip(const string &__s, const vector<char> &strip_list = vector<char>{' '})
+strip(const string& __s, const string strip_list = " ")
 {    
     if (__s.empty()) return __s;
 
@@ -208,16 +208,14 @@ strip(const string &__s, const vector<char> &strip_list = vector<char>{' '})
     const auto e = (std::find_if_not(rbegin(__s), rend(__s), in_strip_list)).base();
 
     // Stripped everything.
-    if (f == end(__s)) return "";                       
+    if (f == end(__s))
+        return string{};                       
 
     // Nothing to strip.
-    if (f == begin(__s) && e == end(__s)) return __s;
-    
-    // Copying the remaining string after excluding stripped indexes
-    std::string res;
-    for (auto it = f; it != e; it++)
-        res.push_back(*it);
-    return res;
+    if ((f == begin(__s)) and (e == end(__s)))
+        return __s;
+
+    return __s.substr(f - begin(__s), e - f);
 }
 
 
@@ -368,21 +366,6 @@ remove_duplicates_with_order_preserve(const vector<_Tp>& __list)
     return non_duplicated_list;
 }
 
-// Returns a vector of digits of number (0th index represents unit place of number)
-vector<int>
-extract_digits(size_t __x)
-{
-    if (__x == 0)
-        return vector<int>(1, 0);
-    
-    vector<int> digits;
-    while (__x)
-    {
-        digits.emplace_back(__x % 10);
-        __x /= 10;
-    }
-    return digits;
-}
 
 /**
  * @brief
@@ -405,10 +388,12 @@ prime_factors(size_t __x)
         while ((__x & 1) == 0)
             __x >>= 1;
     }
-  
+
     for (size_t i = 3; i * i <= __x; i += 2)
     {
-        if ((__x % i) != 0) continue;
+        if ((__x % i) != 0)
+            continue;
+        
         res.emplace_back(i);
         while ((__x % i) == 0)
             __x /= i;
@@ -427,23 +412,20 @@ factors(size_t __x)
     if (__x == 1ULL)
         return vector<_Tp>{1};
 
-    vector<_Tp> factors = {1, __x};
+    vector<_Tp> ftrs = {1, __x};
     size_t __sqrt_x = static_cast<size_t>(sqrtl(__x)) + 1;
 
     if (__sqrt_x * __sqrt_x > __x)
-    {
-        --__sqrt_x;
-        factors.emplace_back(__sqrt_x);
-    }
+        ftrs.emplace_back(--__sqrt_x);
 
     for (size_t i = 2; i < __sqrt_x; i++)
     {
         if (__x % i != 0) continue;
-        factors.emplace_back(i);
-        factors.emplace_back(__x / i);
+        ftrs.emplace_back(i);
+        ftrs.emplace_back(__x / i);
     }
-    std::sort(begin(factors), end(factors));
-    return factors;
+    std::sort(begin(ftrs), end(ftrs));
+    return ftrs;
 }
 
 /**
@@ -460,7 +442,7 @@ is_prime(size_t __x)
     if (__x == 2)
         return true;
 
-    if (__x < 2 || (__x % 2) == 0)
+    if (__x < 2 or (__x % 2) == 0)
         return false;
 
     // Check if __x is divisible by a odd number in range[3, sqrt(__x)].
