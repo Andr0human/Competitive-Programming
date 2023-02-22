@@ -171,17 +171,15 @@ split(const std::string &__s, const char sep)
     vector<string> res;
     size_t prev = 0, __n = __s.length();
 
-    for (size_t i = 0; i < __n; i++)
+    for (size_t i = 0; i <= __n; i++)
     {
-        if (__s[i] != sep)
+        if (i < __n and __s[i] != sep)
             continue;
         if (i > prev)
             res.emplace_back(__s.substr(prev, i - prev));
         prev = i + 1;
     }
 
-    if (__n > prev)
-        res.emplace_back(__s.substr(prev, __n - prev));
     return res;
 }
 
