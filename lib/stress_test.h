@@ -190,11 +190,11 @@ stress_test(const auto& __f1, const auto& __f2,
 
         cout << "\nRes1 = ";
         print(std::apply(__f1, failed_case_params));
-        cout << "\nRes2 = ";
+        cout << "Res2 = ";
         print(std::apply(__f2, failed_case_params));
 
         // Leave an extra line after printing each failed_case
-        cout << std::endl << std::endl;
+        cout << std::endl;
     }
 }
 
