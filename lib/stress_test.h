@@ -184,15 +184,17 @@ stress_test(const auto& __f1, const auto& __f2,
         **/
 
         cout << "Testcase " << index << '\n';
-        cout << "Res1 = " << std::apply(__f1, failed_case_params) << '\n';
-        cout << "Res2 = " << std::apply(__f2, failed_case_params) << '\n\n';
-
         cout << "Params : \n";
         // Print the tuple containing parameters
         printTuple(failed_case_params);
 
+        cout << "\nRes1 = ";
+        print(std::apply(__f1, failed_case_params));
+        cout << "\nRes2 = ";
+        print(std::apply(__f2, failed_case_params));
+
         // Leave an extra line after printing each failed_case
-        cout << std::endl;
+        cout << std::endl << std::endl;
     }
 }
 
